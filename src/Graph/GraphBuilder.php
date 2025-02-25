@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace DePhpViz\Graph;
 
-use DePhpViz\Graph\Model\Edge;
 use DePhpViz\Graph\Model\Graph;
 use DePhpViz\Graph\Model\Node;
 use DePhpViz\Parser\Model\ClassDefinition;
@@ -18,9 +17,11 @@ use Psr\Log\NullLogger;
 class GraphBuilder
 {
     /**
+     * @param DependencyMapper $dependencyMapper The dependency mapper service
      * @param LoggerInterface $logger Logger for recording graph building information
      */
     public function __construct(
+        private readonly DependencyMapper $dependencyMapper,
         private readonly LoggerInterface $logger = new NullLogger()
     ) {
     }
@@ -29,14 +30,28 @@ class GraphBuilder
      * Build a dependency graph from parsed data.
      *
      * @param array<array{class: ClassDefinition, dependencies: array<Dependency>}> $parsedData
-     * @return Graph
+     * @return array{
+     *     graph: Graph,
+     *     stats: array{
+     *         nodeCount: int,
+     *         edgeCount: int,
+     *         buildTime: float,
+     *         dependencies: array<string, array{count: int, missing: int, invalid: int, circular: int}>,
+     *     }
+     * } The graph and build statistics
      */
-    public function buildGraph(array $parsedData): Graph
+    public function buildGraph(array $parsedData): array
     {
         $this->logger->info('Building dependency graph...');
         $startTime = microtime(true);
 
         $graph = new Graph();
+        $stats = [
+            'nodeCount' => 0,
+            'edgeCount' => 0,
+            'buildTime' => 0,
+            'dependencies' => []
+        ];
 
         // First pass: Create nodes for all classes
         $this->logger->debug('Creating nodes for all classes...');
@@ -44,50 +59,26 @@ class GraphBuilder
             $classDefinition = $item['class'];
             $node = Node::fromClassDefinition($classDefinition);
             $graph->addNode($node);
+            $stats['nodeCount']++;
         }
 
-        $nodeCount = count($graph->getNodes());
-        $this->logger->info(sprintf('Created %d nodes', $nodeCount));
+        $this->logger->info(sprintf('Created %d nodes', $stats['nodeCount']));
 
-        // Second pass: Create edges for all dependencies
-        $this->logger->debug('Creating edges for all dependencies...');
-        $edgeCount = 0;
-        $missingTargets = 0;
+        // Second pass: Create edges for all dependencies using the mapper
+        $this->logger->debug('Mapping dependencies to edges...');
+        $dependencyStats = $this->dependencyMapper->mapDependencies($graph, $parsedData);
 
-        foreach ($parsedData as $item) {
-            $dependencies = $item['dependencies'];
-
-            foreach ($dependencies as $dependency) {
-                $edge = Edge::fromDependency($dependency);
-
-                // Track missing target nodes
-                if (!$graph->hasNode($dependency->targetClass)) {
-                    $this->logger->debug(sprintf(
-                        'Missing target node for dependency: %s -> %s',
-                        $dependency->sourceClass,
-                        $dependency->targetClass
-                    ));
-                    $missingTargets++;
-                    continue;
-                }
-
-                $graph->addEdge($edge);
-                $edgeCount++;
-            }
-        }
-
-        $this->logger->info(sprintf('Created %d edges', $edgeCount));
-
-        if ($missingTargets > 0) {
-            $this->logger->warning(sprintf(
-                'Skipped %d dependencies with missing target classes',
-                $missingTargets
-            ));
-        }
+        $stats['edgeCount'] = $dependencyStats['total']['count'];
+        $stats['dependencies'] = $dependencyStats;
 
         $elapsedTime = microtime(true) - $startTime;
+        $stats['buildTime'] = $elapsedTime;
+
         $this->logger->info(sprintf('Graph built in %.2f seconds', $elapsedTime));
 
-        return $graph;
+        return [
+            'graph' => $graph,
+            'stats' => $stats
+        ];
     }
 }

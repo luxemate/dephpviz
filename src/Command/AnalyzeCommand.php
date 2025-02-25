@@ -7,9 +7,10 @@ namespace DePhpViz\Command;
 use DePhpViz\FileSystem\DirectoryScanner;
 use DePhpViz\FileSystem\Exception\DirectoryNotFoundException;
 use DePhpViz\FileSystem\FileSystemRepository;
+use DePhpViz\Graph\DependencyMapper;
 use DePhpViz\Graph\GraphBuilder;
 use DePhpViz\Graph\GraphSerializer;
-use DePhpViz\Graph\GraphTester;
+use DePhpViz\Graph\GraphValidator;
 use DePhpViz\Parser\ErrorCollector;
 use DePhpViz\Parser\PhpFileAnalyzer;
 use DePhpViz\Parser\PhpFileParser;
@@ -46,8 +47,8 @@ class AnalyzeCommand extends Command
             ->addOption('log', 'l', InputOption::VALUE_OPTIONAL, 'Log file', 'var/logs/dephpviz.log')
             ->addOption('require-namespace', null, InputOption::VALUE_NONE, 'Require namespace for all PHP files')
             ->addOption('error-report', null, InputOption::VALUE_OPTIONAL, 'Generate an error report file', 'var/error-report.json')
-            ->addOption('prototype', 'p', InputOption::VALUE_OPTIONAL, 'Generate a prototype graph with limited nodes', '50')
-            ->addOption('prototype-output', null, InputOption::VALUE_OPTIONAL, 'Output file for the prototype graph', 'var/prototype-graph.json');
+            ->addOption('validate', null, InputOption::VALUE_NONE, 'Perform graph validation')
+            ->addOption('validation-report', null, InputOption::VALUE_OPTIONAL, 'Generate a validation report file', 'var/validation-report.json');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -81,15 +82,10 @@ class AnalyzeCommand extends Command
         $errorReportInput = $input->getOption('error-report');
         $errorReport = is_string($errorReportInput) ? $errorReportInput : null;
 
-        $prototypeInput = $input->getOption('prototype');
-        $prototypeMaxNodes = is_string($prototypeInput) ? (int)$prototypeInput : 0;
+        $performValidation = $input->getOption('validate') === true;
 
-        $prototypeOutputInput = $input->getOption('prototype-output');
-        if (!is_string($prototypeOutputInput)) {
-            $io->error('Prototype output file option must be a string.');
-            return Command::INVALID;
-        }
-        $prototypeOutputFile = $prototypeOutputInput;
+        $validationReportInput = $input->getOption('validation-report');
+        $validationReport = is_string($validationReportInput) ? $validationReportInput : null;
 
         $io->title('DePhpViz - PHP Dependency Analyzer');
 
@@ -109,9 +105,10 @@ class AnalyzeCommand extends Command
                 $errorCollector,
                 $this->logger
             );
-            $graphBuilder = new GraphBuilder($this->logger);
+            $dependencyMapper = new DependencyMapper($this->logger);
+            $graphBuilder = new GraphBuilder($dependencyMapper, $this->logger);
             $graphSerializer = new GraphSerializer($filesystem, $this->logger);
-            $graphTester = new GraphTester($graphBuilder, $graphSerializer);
+            $graphValidator = new GraphValidator($this->logger);
 
             // Scan for PHP files
             $io->section('Scanning for PHP files');
@@ -129,7 +126,7 @@ class AnalyzeCommand extends Command
 
             $validClasses = [];
 
-            foreach ($phpFiles as $index => $phpFile) {
+            foreach ($phpFiles as $phpFile) {
                 $progressBar->setMessage(sprintf('Analyzing %s', $phpFile->relativePath));
 
                 $result = $phpFileAnalyzer->analyze($phpFile, $requireNamespace);
@@ -174,30 +171,145 @@ class AnalyzeCommand extends Command
                 }
             }
 
-            // Generate prototype with subset of data if requested
-            if ($prototypeMaxNodes > 0) {
-                $prototypeGraph = $graphTester->generateTestGraph(
-                    $validClasses,
-                    $prototypeMaxNodes,
-                    $prototypeOutputFile,
-                    $io
-                );
+            // Build the complete graph with refined dependency mapping
+            $io->section('Building dependency graph');
+            $result = $graphBuilder->buildGraph($validClasses);
+            $graph = $result['graph'];
+            $stats = $result['stats'];
 
-                $graphTester->validateGraph($prototypeGraph, $io);
-            }
-
-            // Build and serialize the complete graph
-            $io->section('Building complete dependency graph');
-            $graph = $graphBuilder->buildGraph($validClasses);
-
-            $nodeCount = count($graph->getNodes());
-            $edgeCount = count($graph->getEdges());
+            $nodeCount = $stats['nodeCount'];
+            $edgeCount = $stats['edgeCount'];
 
             $io->info(sprintf(
                 'Graph contains %d nodes and %d edges',
                 $nodeCount,
                 $edgeCount
             ));
+
+            // Display dependency statistics
+            /** @var array{
+             *   use: array{count: int, missing: int, invalid: int, circular: int},
+             *   extends: array{count: int, missing: int, invalid: int, circular: int},
+             *   implements: array{count: int, missing: int, invalid: int, circular: int},
+             *   total: array{count: int, missing: int, invalid: int, circular: int}
+             * } $depStats
+             */
+            $depStats = $stats['dependencies'];
+
+            $depTable = new Table($output);
+            $depTable->setHeaderTitle('Dependency Mapping Statistics');
+            $depTable->setHeaders(['Type', 'Mapped', 'Missing', 'Invalid', 'Circular']);
+
+            foreach (['use', 'extends', 'implements'] as $type) {
+                $depTable->addRow([
+                    $type,
+                    $depStats[$type]['count'],
+                    $depStats[$type]['missing'],
+                    $depStats[$type]['invalid'],
+                    $depStats[$type]['circular']
+                ]);
+            }
+
+            $depTable->addRow([
+                'Total',
+                $depStats['total']['count'],
+                $depStats['total']['missing'],
+                $depStats['total']['invalid'],
+                $depStats['total']['circular']
+            ]);
+
+            $depTable->render();
+
+            // For the validation results section, similarly add type assertions:
+            if ($performValidation) {
+                $io->section('Validating graph structure');
+                /** @var array{
+                 *     orphanedNodes: list<string>,
+                 *     multipleInheritance: array<string, list<string>>,
+                 *     circularDependencies: list<list<string>>,
+                 *     longestPaths: list<list<string>>,
+                 *     mostConnected: array<string, array<string, int>>,
+                 *     leastConnected: array<string, array<string, int>>,
+                 *     subgraphCount: int,
+                 *     largestSubgraph: int,
+                 *     smallestSubgraph: int,
+                 *     isValid: bool,
+                 * } $validationResults
+                 */
+                $validationResults = $graphValidator->validate($graph);
+
+                // Type-safe reporting
+                $io->info(sprintf(
+                    'Graph validation result: %s',
+                    $validationResults['isValid'] ? 'Valid' : 'Issues detected'
+                ));
+
+                if (!empty($validationResults['orphanedNodes'])) {
+                    $io->info(sprintf(
+                        'Found %d orphaned nodes (classes with no dependencies)',
+                        count($validationResults['orphanedNodes'])
+                    ));
+
+                    if ($output->isVerbose() && count($validationResults['orphanedNodes']) > 0) {
+                        $io->text('Sample of orphaned nodes:');
+                        $io->listing(array_slice(
+                            $validationResults['orphanedNodes'],
+                            0,
+                            min(5, count($validationResults['orphanedNodes']))
+                        ));
+                    }
+                }
+
+                if (!empty($validationResults['multipleInheritance'])) {
+                    $io->warning(sprintf(
+                        'Found %d cases of multiple inheritance (should not happen in PHP)',
+                        count($validationResults['multipleInheritance'])
+                    ));
+
+                    if ($output->isVerbose() && count($validationResults['multipleInheritance']) > 0) {
+                        foreach ($validationResults['multipleInheritance'] as $child => $parents) {
+                            $io->text(sprintf(
+                                'Class %s extends multiple classes: %s',
+                                $child,
+                                implode(', ', $parents)
+                            ));
+                        }
+                    }
+                }
+
+                if (!empty($validationResults['circularDependencies'])) {
+                    $io->warning(sprintf(
+                        'Found %d circular inheritance paths',
+                        count($validationResults['circularDependencies'])
+                    ));
+
+                    if ($output->isVerbose() && count($validationResults['circularDependencies']) > 0) {
+                        $io->text('Circular paths:');
+                        foreach ($validationResults['circularDependencies'] as $index => $path) {
+                            $io->text(sprintf(
+                                'Path %d: %s',
+                                $index + 1,
+                                implode(' -> ', $path)
+                            ));
+                        }
+                    }
+                }
+
+                if ($validationResults['subgraphCount'] > 1) {
+                    $io->info(sprintf(
+                        'Graph contains %d disconnected subgraphs (largest: %d nodes, smallest: %d nodes)',
+                        $validationResults['subgraphCount'],
+                        $validationResults['largestSubgraph'],
+                        $validationResults['smallestSubgraph']
+                    ));
+                }
+
+                // Generate validation report if requested
+                if ($validationReport !== null) {
+                    $this->generateValidationReport($validationReport, $validationResults);
+                    $io->info(sprintf('Validation report saved to %s', $validationReport));
+                }
+            }
 
             // Serialize the graph
             $io->section('Serializing graph');
@@ -292,6 +404,51 @@ class AnalyzeCommand extends Command
                 'generated_at' => date('Y-m-d H:i:s'),
             ],
             'errors_by_type' => $errorCollector->getErrorsByType()
+        ];
+
+        file_put_contents(
+            $filePath,
+            json_encode($report, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR)
+        );
+    }
+
+    /**
+     * Generate a validation report file.
+     *
+     * @param string $filePath The output file path
+     * @param array{
+     *      orphanedNodes: list<string>,
+     *      multipleInheritance: array<string, list<string>>,
+     *      circularDependencies: list<list<string>>,
+     *      longestPaths: list<list<string>>,
+     *      mostConnected: array<string, array<string, int>>,
+     *      leastConnected: array<string, array<string, int>>,
+     *      subgraphCount: int,
+     *      largestSubgraph: int,
+     *      smallestSubgraph: int,
+     *      isValid: bool,
+     * } $validationResults The validation results
+     *
+     * @throws \JsonException If JSON encoding fails
+     */
+    private function generateValidationReport(string $filePath, array $validationResults): void
+    {
+        // Ensure the directory exists
+        $dir = dirname($filePath);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
+        $report = [
+            'summary' => [
+                'is_valid' => $validationResults['isValid'],
+                'orphaned_nodes_count' => count($validationResults['orphanedNodes']),
+                'multiple_inheritance_count' => count($validationResults['multipleInheritance']),
+                'circular_dependencies_count' => count($validationResults['circularDependencies']),
+                'subgraph_count' => $validationResults['subgraphCount'],
+                'generated_at' => date('Y-m-d H:i:s'),
+            ],
+            'details' => $validationResults
         ];
 
         file_put_contents(

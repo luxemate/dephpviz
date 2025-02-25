@@ -31,14 +31,14 @@ class GraphTester
      * @param int $maxNodes Maximum number of nodes to include in the test graph
      * @param string $outputFile Path to save the test graph JSON
      * @param SymfonyStyle|null $io Console IO for output (optional)
-     * @return Graph The generated test graph
+     * @return \DePhpViz\Graph\Model\Graph The generated test graph
      */
     public function generateTestGraph(
         array $parsedData,
         int $maxNodes,
         string $outputFile,
         ?SymfonyStyle $io = null
-    ): Graph {
+    ): \DePhpViz\Graph\Model\Graph {
         if ($io) {
             $io->section('Generating test graph with subset of data');
             $io->text(sprintf('Using up to %d nodes from %d available classes', $maxNodes, count($parsedData)));
@@ -52,7 +52,8 @@ class GraphTester
         }
 
         // Build graph with subset
-        $graph = $this->graphBuilder->buildGraph($subset);
+        $buildResult = $this->graphBuilder->buildGraph($subset);
+        $graph = $buildResult['graph'];
 
         // Output some statistics
         $nodeCount = count($graph->getNodes());

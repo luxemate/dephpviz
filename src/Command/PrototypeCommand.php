@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DePhpViz\Command;
 
+use DePhpViz\Graph\DependencyMapper;
 use DePhpViz\Graph\GraphBuilder;
 use DePhpViz\Graph\GraphSerializer;
 use DePhpViz\Graph\GraphTester;
@@ -86,7 +87,8 @@ class PrototypeCommand extends Command
             $logger->pushHandler(new StreamHandler('php://stdout', Level::Info));
 
             $filesystem = new Filesystem();
-            $graphBuilder = new GraphBuilder($logger);
+            $dependencyMapper = new DependencyMapper($logger);  // Create dependency mapper
+            $graphBuilder = new GraphBuilder($dependencyMapper, $logger);  // Pass dependencyMapper first
             $graphSerializer = new GraphSerializer($filesystem, $logger);
             $graphTester = new GraphTester($graphBuilder, $graphSerializer);
             $sampleDataGenerator = new SampleDataGenerator();
@@ -116,7 +118,8 @@ class PrototypeCommand extends Command
 
             // Create a graph with the sample data
             $io->section('Building graph');
-            $graph = $graphBuilder->buildGraph($sampleData);
+            $buildResult = $graphBuilder->buildGraph($sampleData);
+            $graph = $buildResult['graph'];
 
             $nodeCount = count($graph->getNodes());
             $edgeCount = count($graph->getEdges());
