@@ -9,6 +9,7 @@ use DePhpViz\FileSystem\Exception\DirectoryNotFoundException;
 use DePhpViz\FileSystem\FileSystemRepository;
 use DePhpViz\Graph\GraphBuilder;
 use DePhpViz\Graph\GraphSerializer;
+use DePhpViz\Graph\GraphTester;
 use DePhpViz\Parser\ErrorCollector;
 use DePhpViz\Parser\PhpFileAnalyzer;
 use DePhpViz\Parser\PhpFileParser;
@@ -44,7 +45,9 @@ class AnalyzeCommand extends Command
             ->addOption('output', 'o', InputOption::VALUE_OPTIONAL, 'Output file for the graph data', 'var/graph.json')
             ->addOption('log', 'l', InputOption::VALUE_OPTIONAL, 'Log file', 'var/logs/dephpviz.log')
             ->addOption('require-namespace', null, InputOption::VALUE_NONE, 'Require namespace for all PHP files')
-            ->addOption('error-report', null, InputOption::VALUE_OPTIONAL, 'Generate an error report file', 'var/error-report.json');
+            ->addOption('error-report', null, InputOption::VALUE_OPTIONAL, 'Generate an error report file', 'var/error-report.json')
+            ->addOption('prototype', 'p', InputOption::VALUE_OPTIONAL, 'Generate a prototype graph with limited nodes', '50')
+            ->addOption('prototype-output', null, InputOption::VALUE_OPTIONAL, 'Output file for the prototype graph', 'var/prototype-graph.json');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -78,6 +81,16 @@ class AnalyzeCommand extends Command
         $errorReportInput = $input->getOption('error-report');
         $errorReport = is_string($errorReportInput) ? $errorReportInput : null;
 
+        $prototypeInput = $input->getOption('prototype');
+        $prototypeMaxNodes = is_string($prototypeInput) ? (int)$prototypeInput : 0;
+
+        $prototypeOutputInput = $input->getOption('prototype-output');
+        if (!is_string($prototypeOutputInput)) {
+            $io->error('Prototype output file option must be a string.');
+            return Command::INVALID;
+        }
+        $prototypeOutputFile = $prototypeOutputInput;
+
         $io->title('DePhpViz - PHP Dependency Analyzer');
 
         try {
@@ -98,6 +111,7 @@ class AnalyzeCommand extends Command
             );
             $graphBuilder = new GraphBuilder($this->logger);
             $graphSerializer = new GraphSerializer($filesystem, $this->logger);
+            $graphTester = new GraphTester($graphBuilder, $graphSerializer);
 
             // Scan for PHP files
             $io->section('Scanning for PHP files');
@@ -160,8 +174,20 @@ class AnalyzeCommand extends Command
                 }
             }
 
-            // Build and serialize the graph
-            $io->section('Building dependency graph');
+            // Generate prototype with subset of data if requested
+            if ($prototypeMaxNodes > 0) {
+                $prototypeGraph = $graphTester->generateTestGraph(
+                    $validClasses,
+                    $prototypeMaxNodes,
+                    $prototypeOutputFile,
+                    $io
+                );
+
+                $graphTester->validateGraph($prototypeGraph, $io);
+            }
+
+            // Build and serialize the complete graph
+            $io->section('Building complete dependency graph');
             $graph = $graphBuilder->buildGraph($validClasses);
 
             $nodeCount = count($graph->getNodes());
