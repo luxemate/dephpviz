@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "Running code quality checks..."
+composer cs-check
+composer phpstan
