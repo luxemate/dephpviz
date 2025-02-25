@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace DePhpViz\Command;
 
+use DePhpViz\FileSystem\DirectoryScanner;
+use DePhpViz\FileSystem\Exception\DirectoryNotFoundException;
+use DePhpViz\FileSystem\FileSystemRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -28,16 +31,49 @@ class AnalyzeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $directory = $input->getArgument('directory');
-        $outputFile = $input->getOption('output');
+
+        // Properly handle input values
+        $directoryInput = $input->getArgument('directory');
+        if (!is_string($directoryInput)) {
+            $io->error('Directory argument must be a string.');
+            return Command::INVALID;
+        }
+        $directory = $directoryInput;
+
+        $outputFileInput = $input->getOption('output');
+        if (!is_string($outputFileInput)) {
+            $io->error('Output file option must be a string.');
+            return Command::INVALID;
+        }
+        $outputFile = $outputFileInput;
 
         $io->title('DePhpViz - PHP Dependency Analyzer');
-        $io->section('Analyzing directory: ' . $directory);
 
-        // Implementation will be added in future steps
+        try {
+            // Create the file system services
+            $fileSystemRepository = new FileSystemRepository();
+            $directoryScanner = new DirectoryScanner($fileSystemRepository);
 
-        $io->success('Analysis completed. Output saved to: ' . $outputFile);
+            // Scan for PHP files
+            $io->section('Scanning for PHP files');
+            $phpFiles = iterator_to_array($directoryScanner->scanDirectory($directory, $output));
 
-        return Command::SUCCESS;
+            $fileCount = count($phpFiles);
+            $io->success(sprintf('Found %d PHP files in %s', $fileCount, $directory));
+
+            // Future steps will implement PHP parsing and graph construction
+
+            return Command::SUCCESS;
+        } catch (DirectoryNotFoundException $e) {
+            $io->error($e->getMessage());
+            return Command::FAILURE;
+        } catch (\Exception $e) {
+            $io->error(sprintf('An error occurred: %s', $e->getMessage()));
+            if ($output->isVerbose()) {
+                $io->section('Stack trace');
+                $io->text($e->getTraceAsString());
+            }
+            return Command::FAILURE;
+        }
     }
 }
