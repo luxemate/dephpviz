@@ -1,0 +1,10 @@
+/vendor/
+/node_modules/
+/var/cache/*
+!/var/cache/.gitkeep
+/var/logs/*
+!/var/logs/.gitkeep
+/public/build/
+.phpunit.result.cache
+.env.local
+.env.*.local

@@ -1,0 +1,43 @@
+{
+    "name": "dephpviz",
+    "version": "1.0.0",
+    "description": "PHP dependency visualization tool",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "dependencies": {
+        "cytoscape": "^3.26.0",
+        "cytoscape-cola": "^2.5.1",
+        "cytoscape-dagre": "^2.5.0",
+        "cytoscape-fcose": "^2.2.0",
+        "fuse.js": "^6.6.2",
+        "lodash": "^4.17.21",
+        "vue": "^3.3.4",
+        "vue-loader": "^17.2.2",
+        "vue-template-compiler": "^2.7.14",
+        "axios": "^1.4.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.21.8",
+        "@babel/preset-env": "^7.21.5",
+        "@symfony/webpack-encore": "^4.4.0",
+        "@vue/compiler-sfc": "^3.3.4",
+        "core-js": "^3.30.2",
+        "file-loader": "^6.2.0",
+        "regenerator-runtime": "^0.13.11",
+        "sass": "^1.62.1",
+        "sass-loader": "^13.3.0",
+        "webpack": "^5.84.1",
+        "webpack-cli": "^5.1.1",
+        "webpack-notifier": "^1.15.0"
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead"
+    ]
+}
