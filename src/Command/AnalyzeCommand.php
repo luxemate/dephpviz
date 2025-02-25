@@ -7,9 +7,17 @@ namespace DePhpViz\Command;
 use DePhpViz\FileSystem\DirectoryScanner;
 use DePhpViz\FileSystem\Exception\DirectoryNotFoundException;
 use DePhpViz\FileSystem\FileSystemRepository;
+use DePhpViz\Graph\GraphBuilder;
+use DePhpViz\Graph\GraphSerializer;
 use DePhpViz\Parser\ErrorCollector;
 use DePhpViz\Parser\PhpFileAnalyzer;
 use DePhpViz\Parser\PhpFileParser;
+use DePhpViz\Util\ConsoleHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Level;
+use Monolog\Logger;
+use Monolog\Processor\IntrospectionProcessor;
+use Monolog\Processor\PsrLogMessageProcessor;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -19,7 +27,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Psr\Log\LoggerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 #[AsCommand(
     name: 'analyze',
@@ -27,7 +35,7 @@ use Psr\Log\LoggerInterface;
 )]
 class AnalyzeCommand extends Command
 {
-    private LoggerInterface $logger;
+    private Logger $logger;
 
     protected function configure(): void
     {
@@ -77,6 +85,7 @@ class AnalyzeCommand extends Command
             $this->configureLogger($output, $logFile);
 
             // Create services
+            $filesystem = new Filesystem();
             $fileSystemRepository = new FileSystemRepository();
             $directoryScanner = new DirectoryScanner($fileSystemRepository);
             $errorCollector = new ErrorCollector($this->logger);
@@ -87,6 +96,8 @@ class AnalyzeCommand extends Command
                 $errorCollector,
                 $this->logger
             );
+            $graphBuilder = new GraphBuilder($this->logger);
+            $graphSerializer = new GraphSerializer($filesystem, $this->logger);
 
             // Scan for PHP files
             $io->section('Scanning for PHP files');
@@ -119,11 +130,11 @@ class AnalyzeCommand extends Command
             $progressBar->finish();
             $output->writeln('');
 
-            // Report results
+            // Report analysis results
             $validClassCount = count($validClasses);
             $io->success(sprintf('Successfully analyzed %d PHP files with a single class definition', $validClassCount));
 
-            // Display error statistics by type
+            // Display error statistics
             if ($errorCollector->hasAnyErrors()) {
                 $errorsByType = $errorCollector->getErrorsByType();
 
@@ -142,26 +153,6 @@ class AnalyzeCommand extends Command
 
                 $table->render();
 
-                // Show the first few errors of each type
-                if ($output->isVerbose()) {
-                    foreach ($errorsByType as $type => $fileErrors) {
-                        $io->section(sprintf('%s Errors', ucfirst(str_replace('_', ' ', $type))));
-
-                        $counter = 0;
-                        foreach ($fileErrors as $file => $messages) {
-                            if ($counter++ >= 5 && !$output->isVeryVerbose()) {
-                                $io->writeln(sprintf('<info>... and %d more files</info>', count($fileErrors) - 5));
-                                break;
-                            }
-
-                            $io->writeln(sprintf('<error>%s</error>:', $file));
-                            foreach ($messages as $message) {
-                                $io->writeln(sprintf(' - %s', $message));
-                            }
-                        }
-                    }
-                }
-
                 // Generate error report if requested
                 if ($errorReport !== null) {
                     $this->generateErrorReport($errorReport, $errorCollector);
@@ -169,7 +160,29 @@ class AnalyzeCommand extends Command
                 }
             }
 
-            // Future steps will implement graph construction
+            // Build and serialize the graph
+            $io->section('Building dependency graph');
+            $graph = $graphBuilder->buildGraph($validClasses);
+
+            $nodeCount = count($graph->getNodes());
+            $edgeCount = count($graph->getEdges());
+
+            $io->info(sprintf(
+                'Graph contains %d nodes and %d edges',
+                $nodeCount,
+                $edgeCount
+            ));
+
+            // Serialize the graph
+            $io->section('Serializing graph');
+            $success = $graphSerializer->serializeToJson($graph, $outputFile);
+
+            if ($success) {
+                $io->success(sprintf('Graph data saved to %s', $outputFile));
+            } else {
+                $io->error('Failed to serialize graph data');
+                return Command::FAILURE;
+            }
 
             return Command::SUCCESS;
         } catch (DirectoryNotFoundException $e) {
@@ -206,27 +219,27 @@ class AnalyzeCommand extends Command
             mkdir($logDir, 0755, true);
         }
 
-        $logger = new \Monolog\Logger('dephpviz');
+        $logger = new Logger('dephpviz');
 
         // Add file handler
-        $fileHandler = new \Monolog\Handler\StreamHandler(
+        $fileHandler = new StreamHandler(
             $logFile,
-            \Monolog\Level::Debug
+            Level::Debug
         );
         $logger->pushHandler($fileHandler);
 
         // Add console handler
-        $consoleHandler = new \DePhpViz\Util\ConsoleHandler(
+        $consoleHandler = new ConsoleHandler(
             $output,
             $output->isVerbose()
-                ? \Monolog\Level::Info
-                : \Monolog\Level::Warning
+                ? Level::Info
+                : Level::Warning
         );
         $logger->pushHandler($consoleHandler);
 
-        // Add processor for additional context information
-        $logger->pushProcessor(new \Monolog\Processor\PsrLogMessageProcessor());
-        $logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor());
+        // Add processors for additional context information
+        $logger->pushProcessor(new PsrLogMessageProcessor());
+        $logger->pushProcessor(new IntrospectionProcessor());
 
         $this->logger = $logger;
     }
@@ -236,6 +249,7 @@ class AnalyzeCommand extends Command
      *
      * @param string $filePath The output file path
      * @param ErrorCollector $errorCollector The error collector
+     * @throws \JsonException If JSON encoding fails
      */
     private function generateErrorReport(string $filePath, ErrorCollector $errorCollector): void
     {
@@ -254,6 +268,9 @@ class AnalyzeCommand extends Command
             'errors_by_type' => $errorCollector->getErrorsByType()
         ];
 
-        file_put_contents($filePath, json_encode($report, JSON_PRETTY_PRINT));
+        file_put_contents(
+            $filePath,
+            json_encode($report, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR)
+        );
     }
 }
