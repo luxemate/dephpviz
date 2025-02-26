@@ -8,11 +8,11 @@
 
 <script>
 import cytoscape from 'cytoscape';
-import fcose from 'cytoscape-fcose';
+import klay from 'cytoscape-klay';
 import { debounce } from 'lodash';
 
 // Register the layout algorithm
-cytoscape.use(fcose);
+cytoscape.use(klay);
 
 export default {
   props: {
@@ -139,7 +139,7 @@ export default {
             }
           ],
           layout: {
-            name: 'fcose',
+            name: 'klay',
             idealEdgeLength: 500,
             nodeOverlap: 50,
             refresh: 20,
