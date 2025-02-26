@@ -205,8 +205,8 @@ export default {
         this.highlightConnections(node);
       });
 
-      this.cy.on('tap', background => {
-        if (background.target === this.cy) {
+      this.cy.on('tap', event => {
+        if (event.target.isEdge === undefined && event.target.isNode === undefined) {
           this.resetHighlighting();
         }
       });
