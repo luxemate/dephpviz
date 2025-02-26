@@ -15,6 +15,8 @@ use DePhpViz\Parser\ErrorCollector;
 use DePhpViz\Parser\PhpFileAnalyzer;
 use DePhpViz\Parser\PhpFileParser;
 use DePhpViz\Util\ConsoleHandler;
+use DePhpViz\Web\WebServer;
+use DePhpViz\Web\WebServerConfig;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
@@ -315,8 +317,40 @@ class AnalyzeCommand extends Command
             $io->section('Serializing graph');
             $success = $graphSerializer->serializeToJson($graph, $outputFile);
 
+            // Add after graph serialization
             if ($success) {
                 $io->success(sprintf('Graph data saved to %s', $outputFile));
+
+                // Offer to start the web server
+                if ($io->confirm('Would you like to view the visualization now?', true)) {
+                    // Create the web server config
+                    $webServerConfig = new WebServerConfig(
+                        host: '127.0.0.1',
+                        port: 8080,
+                        publicDir: 'public',
+                        graphDataFile: $outputFile
+                    );
+
+                    // Create and start the web server
+                    $webServer = new WebServer($webServerConfig, $this->logger);
+                    $webServer->start();
+
+                    $io->success(sprintf(
+                        'Web server started at %s',
+                        $webServerConfig->getVisualizationUrl()
+                    ));
+
+                    // Open the browser
+                    $this->openBrowser($webServerConfig->getVisualizationUrl(), $io);
+
+                    $io->note('Press Ctrl+C to stop the web server when you\'re done');
+
+                    // Keep the command running until interrupted
+                    // @phpstan-ignore-next-line
+                    while (true) {
+                        sleep(1);
+                    }
+                }
             } else {
                 $io->error('Failed to serialize graph data');
                 return Command::FAILURE;
@@ -455,5 +489,24 @@ class AnalyzeCommand extends Command
             $filePath,
             json_encode($report, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR)
         );
+    }
+
+    /**
+     * Open the browser with the given URL.
+     */
+    private function openBrowser(string $url, SymfonyStyle $io): void
+    {
+        $io->section('Opening browser');
+
+        $command = match (PHP_OS_FAMILY) {
+            'Windows' => ['cmd', '/c', 'start', $url],
+            'Darwin' => ['open', $url],
+            default => ['xdg-open', $url]
+        };
+
+        $process = new \Symfony\Component\Process\Process($command);
+        $process->start();
+
+        $io->text(sprintf('Opening %s in your browser', $url));
     }
 }

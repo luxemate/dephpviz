@@ -6,8 +6,12 @@ declare(strict_types=1);
 require dirname(__DIR__).'/vendor/autoload.php';
 
 use DePhpViz\Command\AnalyzeCommand;
+use DePhpViz\Command\PrototypeCommand;
+use DePhpViz\Command\ServerCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application('DePhpViz', '1.0.0');
 $application->add(new AnalyzeCommand());
+$application->add(new PrototypeCommand());
+$application->add(new ServerCommand());
 $application->run();
