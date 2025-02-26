@@ -1,0 +1,1042 @@
+{
+    "nodes": {
+        "DePhpViz\\FileSystem\\FileSystemRepository": {
+            "id": "DePhpViz\\FileSystem\\FileSystemRepository",
+            "label": "FileSystemRepository",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\FileSystem",
+                "filePath": "src\/FileSystem\/FileSystemRepository.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\FileSystem\\Model\\PhpFile": {
+            "id": "DePhpViz\\FileSystem\\Model\\PhpFile",
+            "label": "PhpFile",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\FileSystem\\Model",
+                "filePath": "src\/FileSystem\/Model\/PhpFile.php",
+                "docComment": [
+                    "Represents a PHP file in the file system."
+                ],
+                "isAbstract": false,
+                "isFinal": true
+            }
+        },
+        "DePhpViz\\FileSystem\\Exception\\FileSystemException": {
+            "id": "DePhpViz\\FileSystem\\Exception\\FileSystemException",
+            "label": "FileSystemException",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\FileSystem\\Exception",
+                "filePath": "src\/FileSystem\/Exception\/FileSystemException.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException": {
+            "id": "DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException",
+            "label": "DirectoryNotFoundException",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\FileSystem\\Exception",
+                "filePath": "src\/FileSystem\/Exception\/DirectoryNotFoundException.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface": {
+            "id": "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface",
+            "label": "FileSystemRepositoryInterface",
+            "type": "interface",
+            "metadata": {
+                "namespace": "DePhpViz\\FileSystem\\Contract",
+                "filePath": "src\/FileSystem\/Contract\/FileSystemRepositoryInterface.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\FileSystem\\DirectoryScanner": {
+            "id": "DePhpViz\\FileSystem\\DirectoryScanner",
+            "label": "DirectoryScanner",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\FileSystem",
+                "filePath": "src\/FileSystem\/DirectoryScanner.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Util\\ConsoleHandler": {
+            "id": "DePhpViz\\Util\\ConsoleHandler",
+            "label": "ConsoleHandler",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Util",
+                "filePath": "src\/Util\/ConsoleHandler.php",
+                "docComment": [
+                    "Writes logs to Symfony Console output."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\Model\\AbstractDefinition": {
+            "id": "DePhpViz\\Parser\\Model\\AbstractDefinition",
+            "label": "AbstractDefinition",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\Model",
+                "filePath": "src\/Parser\/Model\/AbstractDefinition.php",
+                "docComment": [
+                    "Base class for PHP type definitions (class, trait, interface)."
+                ],
+                "isAbstract": true,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\Model\\Dependency": {
+            "id": "DePhpViz\\Parser\\Model\\Dependency",
+            "label": "Dependency",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\Model",
+                "filePath": "src\/Parser\/Model\/Dependency.php",
+                "docComment": [
+                    "Represents a dependency between classes."
+                ],
+                "isAbstract": false,
+                "isFinal": true
+            }
+        },
+        "DePhpViz\\Parser\\Model\\TraitDefinition": {
+            "id": "DePhpViz\\Parser\\Model\\TraitDefinition",
+            "label": "TraitDefinition",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\Model",
+                "filePath": "src\/Parser\/Model\/TraitDefinition.php",
+                "docComment": [
+                    "Represents a trait definition found in a PHP file."
+                ],
+                "isAbstract": false,
+                "isFinal": true
+            }
+        },
+        "DePhpViz\\Parser\\Model\\InterfaceDefinition": {
+            "id": "DePhpViz\\Parser\\Model\\InterfaceDefinition",
+            "label": "InterfaceDefinition",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\Model",
+                "filePath": "src\/Parser\/Model\/InterfaceDefinition.php",
+                "docComment": [
+                    "Represents an interface definition found in a PHP file."
+                ],
+                "isAbstract": false,
+                "isFinal": true
+            }
+        },
+        "DePhpViz\\Parser\\Model\\ClassDefinition": {
+            "id": "DePhpViz\\Parser\\Model\\ClassDefinition",
+            "label": "ClassDefinition",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\Model",
+                "filePath": "src\/Parser\/Model\/ClassDefinition.php",
+                "docComment": [
+                    "Represents a class definition found in a PHP file."
+                ],
+                "isAbstract": false,
+                "isFinal": true
+            }
+        },
+        "DePhpViz\\Parser\\PhpFileParser": {
+            "id": "DePhpViz\\Parser\\PhpFileParser",
+            "label": "PhpFileParser",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser",
+                "filePath": "src\/Parser\/PhpFileParser.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\ErrorCollector": {
+            "id": "DePhpViz\\Parser\\ErrorCollector",
+            "label": "ErrorCollector",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser",
+                "filePath": "src\/Parser\/ErrorCollector.php",
+                "docComment": [
+                    "Collects and manages errors encountered during parsing."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\Exception\\MissingNamespaceException": {
+            "id": "DePhpViz\\Parser\\Exception\\MissingNamespaceException",
+            "label": "MissingNamespaceException",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\Exception",
+                "filePath": "src\/Parser\/Exception\/MissingNamespaceException.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\Exception\\SyntaxErrorException": {
+            "id": "DePhpViz\\Parser\\Exception\\SyntaxErrorException",
+            "label": "SyntaxErrorException",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\Exception",
+                "filePath": "src\/Parser\/Exception\/SyntaxErrorException.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\Exception\\MultipleDefinitionsException": {
+            "id": "DePhpViz\\Parser\\Exception\\MultipleDefinitionsException",
+            "label": "MultipleDefinitionsException",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\Exception",
+                "filePath": "src\/Parser\/Exception\/MultipleDefinitionsException.php",
+                "docComment": [
+                    "Exception thrown when multiple definitions are found in a single file."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\Exception\\InvalidFileException": {
+            "id": "DePhpViz\\Parser\\Exception\\InvalidFileException",
+            "label": "InvalidFileException",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\Exception",
+                "filePath": "src\/Parser\/Exception\/InvalidFileException.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\Exception\\ParserException": {
+            "id": "DePhpViz\\Parser\\Exception\\ParserException",
+            "label": "ParserException",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\Exception",
+                "filePath": "src\/Parser\/Exception\/ParserException.php",
+                "docComment": [],
+                "isAbstract": true,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\Exception\\UnknownDefinitionException": {
+            "id": "DePhpViz\\Parser\\Exception\\UnknownDefinitionException",
+            "label": "UnknownDefinitionException",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\Exception",
+                "filePath": "src\/Parser\/Exception\/UnknownDefinitionException.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\NodeVisitor\\NamespaceVisitor": {
+            "id": "DePhpViz\\Parser\\NodeVisitor\\NamespaceVisitor",
+            "label": "NamespaceVisitor",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\NodeVisitor",
+                "filePath": "src\/Parser\/NodeVisitor\/NamespaceVisitor.php",
+                "docComment": [
+                    "Visitor that extracts namespace information."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\NodeVisitor\\DefinitionVisitor": {
+            "id": "DePhpViz\\Parser\\NodeVisitor\\DefinitionVisitor",
+            "label": "DefinitionVisitor",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\NodeVisitor",
+                "filePath": "src\/Parser\/NodeVisitor\/DefinitionVisitor.php",
+                "docComment": [
+                    "Visitor that identifies class, trait, and interface definitions."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\NodeVisitor\\DependencyVisitor": {
+            "id": "DePhpViz\\Parser\\NodeVisitor\\DependencyVisitor",
+            "label": "DependencyVisitor",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser\\NodeVisitor",
+                "filePath": "src\/Parser\/NodeVisitor\/DependencyVisitor.php",
+                "docComment": [
+                    "Visitor that extracts class dependencies via use statements and inheritance."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "label": "PhpFileAnalyzer",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Parser",
+                "filePath": "src\/Parser\/PhpFileAnalyzer.php",
+                "docComment": [
+                    "Analyzes PHP files to extract class definitions and dependencies."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Web\\WebServer": {
+            "id": "DePhpViz\\Web\\WebServer",
+            "label": "WebServer",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Web",
+                "filePath": "src\/Web\/WebServer.php",
+                "docComment": [
+                    "Web server for serving the dependency visualization."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Web\\Exception\\WebServerException": {
+            "id": "DePhpViz\\Web\\Exception\\WebServerException",
+            "label": "WebServerException",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Web\\Exception",
+                "filePath": "src\/Web\/Exception\/WebServerException.php",
+                "docComment": [
+                    "Exception thrown by the web server component."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Web\\Controller\\ApiController": {
+            "id": "DePhpViz\\Web\\Controller\\ApiController",
+            "label": "ApiController",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Web\\Controller",
+                "filePath": "src\/Web\/Controller\/ApiController.php",
+                "docComment": [
+                    "Controller for API endpoints."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Web\\Controller\\IndexController": {
+            "id": "DePhpViz\\Web\\Controller\\IndexController",
+            "label": "IndexController",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Web\\Controller",
+                "filePath": "src\/Web\/Controller\/IndexController.php",
+                "docComment": [
+                    "Controller for handling requests to static files and the main index."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Web\\WebServerConfig": {
+            "id": "DePhpViz\\Web\\WebServerConfig",
+            "label": "WebServerConfig",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Web",
+                "filePath": "src\/Web\/WebServerConfig.php",
+                "docComment": [
+                    "Configuration for the web server."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Command\\AnalyzeCommand": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand",
+            "label": "AnalyzeCommand",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Command",
+                "filePath": "src\/Command\/AnalyzeCommand.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Command\\PrototypeCommand": {
+            "id": "DePhpViz\\Command\\PrototypeCommand",
+            "label": "PrototypeCommand",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Command",
+                "filePath": "src\/Command\/PrototypeCommand.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Command\\ServerCommand": {
+            "id": "DePhpViz\\Command\\ServerCommand",
+            "label": "ServerCommand",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Command",
+                "filePath": "src\/Command\/ServerCommand.php",
+                "docComment": [],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Graph\\GraphBuilder": {
+            "id": "DePhpViz\\Graph\\GraphBuilder",
+            "label": "GraphBuilder",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Graph",
+                "filePath": "src\/Graph\/GraphBuilder.php",
+                "docComment": [
+                    "Builds a dependency graph from parsed definitions and dependencies."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Graph\\Model\\Graph": {
+            "id": "DePhpViz\\Graph\\Model\\Graph",
+            "label": "Graph",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Graph\\Model",
+                "filePath": "src\/Graph\/Model\/Graph.php",
+                "docComment": [
+                    "Represents the entire dependency graph."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Graph\\Model\\Node": {
+            "id": "DePhpViz\\Graph\\Model\\Node",
+            "label": "Node",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Graph\\Model",
+                "filePath": "src\/Graph\/Model\/Node.php",
+                "docComment": [
+                    "Represents a node in the dependency graph."
+                ],
+                "isAbstract": false,
+                "isFinal": true
+            }
+        },
+        "DePhpViz\\Graph\\Model\\Edge": {
+            "id": "DePhpViz\\Graph\\Model\\Edge",
+            "label": "Edge",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Graph\\Model",
+                "filePath": "src\/Graph\/Model\/Edge.php",
+                "docComment": [
+                    "Represents an edge (relationship) in the dependency graph."
+                ],
+                "isAbstract": false,
+                "isFinal": true
+            }
+        },
+        "DePhpViz\\Graph\\GraphValidator": {
+            "id": "DePhpViz\\Graph\\GraphValidator",
+            "label": "GraphValidator",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Graph",
+                "filePath": "src\/Graph\/GraphValidator.php",
+                "docComment": [
+                    "Validates graph structure and identifies potential issues."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Graph\\GraphSerializer": {
+            "id": "DePhpViz\\Graph\\GraphSerializer",
+            "label": "GraphSerializer",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Graph",
+                "filePath": "src\/Graph\/GraphSerializer.php",
+                "docComment": [
+                    "Serializes a graph to various formats."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Graph\\GraphTester": {
+            "id": "DePhpViz\\Graph\\GraphTester",
+            "label": "GraphTester",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Graph",
+                "filePath": "src\/Graph\/GraphTester.php",
+                "docComment": [
+                    "Tests graph creation with a subset of parsed data."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Graph\\DependencyMapper": {
+            "id": "DePhpViz\\Graph\\DependencyMapper",
+            "label": "DependencyMapper",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Graph",
+                "filePath": "src\/Graph\/DependencyMapper.php",
+                "docComment": [
+                    "Maps parsed dependencies to graph edges with validation."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        },
+        "DePhpViz\\Graph\\SampleDataGenerator": {
+            "id": "DePhpViz\\Graph\\SampleDataGenerator",
+            "label": "SampleDataGenerator",
+            "type": "class",
+            "metadata": {
+                "namespace": "DePhpViz\\Graph",
+                "filePath": "src\/Graph\/SampleDataGenerator.php",
+                "docComment": [
+                    "Generates sample data for testing graph construction."
+                ],
+                "isAbstract": false,
+                "isFinal": false
+            }
+        }
+    },
+    "edges": {
+        "DePhpViz\\FileSystem\\FileSystemRepository->DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface": {
+            "id": "DePhpViz\\FileSystem\\FileSystemRepository->DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface",
+            "source": "DePhpViz\\FileSystem\\FileSystemRepository",
+            "target": "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\FileSystem\\FileSystemRepository->DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException": {
+            "id": "DePhpViz\\FileSystem\\FileSystemRepository->DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException",
+            "source": "DePhpViz\\FileSystem\\FileSystemRepository",
+            "target": "DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\FileSystem\\FileSystemRepository->DePhpViz\\FileSystem\\Exception\\FileSystemException": {
+            "id": "DePhpViz\\FileSystem\\FileSystemRepository->DePhpViz\\FileSystem\\Exception\\FileSystemException",
+            "source": "DePhpViz\\FileSystem\\FileSystemRepository",
+            "target": "DePhpViz\\FileSystem\\Exception\\FileSystemException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\FileSystem\\FileSystemRepository->DePhpViz\\FileSystem\\Model\\PhpFile": {
+            "id": "DePhpViz\\FileSystem\\FileSystemRepository->DePhpViz\\FileSystem\\Model\\PhpFile",
+            "source": "DePhpViz\\FileSystem\\FileSystemRepository",
+            "target": "DePhpViz\\FileSystem\\Model\\PhpFile",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface->DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException": {
+            "id": "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface->DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException",
+            "source": "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface",
+            "target": "DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface->DePhpViz\\FileSystem\\Exception\\FileSystemException": {
+            "id": "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface->DePhpViz\\FileSystem\\Exception\\FileSystemException",
+            "source": "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface",
+            "target": "DePhpViz\\FileSystem\\Exception\\FileSystemException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface->DePhpViz\\FileSystem\\Model\\PhpFile": {
+            "id": "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface->DePhpViz\\FileSystem\\Model\\PhpFile",
+            "source": "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface",
+            "target": "DePhpViz\\FileSystem\\Model\\PhpFile",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\FileSystem\\DirectoryScanner->DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface": {
+            "id": "DePhpViz\\FileSystem\\DirectoryScanner->DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface",
+            "source": "DePhpViz\\FileSystem\\DirectoryScanner",
+            "target": "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\FileSystem\\DirectoryScanner->DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException": {
+            "id": "DePhpViz\\FileSystem\\DirectoryScanner->DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException",
+            "source": "DePhpViz\\FileSystem\\DirectoryScanner",
+            "target": "DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\FileSystem\\DirectoryScanner->DePhpViz\\FileSystem\\Model\\PhpFile": {
+            "id": "DePhpViz\\FileSystem\\DirectoryScanner->DePhpViz\\FileSystem\\Model\\PhpFile",
+            "source": "DePhpViz\\FileSystem\\DirectoryScanner",
+            "target": "DePhpViz\\FileSystem\\Model\\PhpFile",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileParser->DePhpViz\\Parser\\Exception\\ParserException": {
+            "id": "DePhpViz\\Parser\\PhpFileParser->DePhpViz\\Parser\\Exception\\ParserException",
+            "source": "DePhpViz\\Parser\\PhpFileParser",
+            "target": "DePhpViz\\Parser\\Exception\\ParserException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileParser->DePhpViz\\Parser\\Exception\\SyntaxErrorException": {
+            "id": "DePhpViz\\Parser\\PhpFileParser->DePhpViz\\Parser\\Exception\\SyntaxErrorException",
+            "source": "DePhpViz\\Parser\\PhpFileParser",
+            "target": "DePhpViz\\Parser\\Exception\\SyntaxErrorException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileParser->DePhpViz\\Parser\\Exception\\InvalidFileException": {
+            "id": "DePhpViz\\Parser\\PhpFileParser->DePhpViz\\Parser\\Exception\\InvalidFileException",
+            "source": "DePhpViz\\Parser\\PhpFileParser",
+            "target": "DePhpViz\\Parser\\Exception\\InvalidFileException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\ErrorCollector->DePhpViz\\FileSystem\\Model\\PhpFile": {
+            "id": "DePhpViz\\Parser\\ErrorCollector->DePhpViz\\FileSystem\\Model\\PhpFile",
+            "source": "DePhpViz\\Parser\\ErrorCollector",
+            "target": "DePhpViz\\FileSystem\\Model\\PhpFile",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\NodeVisitor\\DefinitionVisitor->DePhpViz\\Parser\\Exception\\MultipleDefinitionsException": {
+            "id": "DePhpViz\\Parser\\NodeVisitor\\DefinitionVisitor->DePhpViz\\Parser\\Exception\\MultipleDefinitionsException",
+            "source": "DePhpViz\\Parser\\NodeVisitor\\DefinitionVisitor",
+            "target": "DePhpViz\\Parser\\Exception\\MultipleDefinitionsException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\NodeVisitor\\DependencyVisitor->DePhpViz\\Parser\\Model\\Dependency": {
+            "id": "DePhpViz\\Parser\\NodeVisitor\\DependencyVisitor->DePhpViz\\Parser\\Model\\Dependency",
+            "source": "DePhpViz\\Parser\\NodeVisitor\\DependencyVisitor",
+            "target": "DePhpViz\\Parser\\Model\\Dependency",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\FileSystem\\Model\\PhpFile": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\FileSystem\\Model\\PhpFile",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\FileSystem\\Model\\PhpFile",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\FileSystem\\Contract\\FileSystemRepositoryInterface",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Exception\\MissingNamespaceException": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Exception\\MissingNamespaceException",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\Parser\\Exception\\MissingNamespaceException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Exception\\MultipleDefinitionsException": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Exception\\MultipleDefinitionsException",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\Parser\\Exception\\MultipleDefinitionsException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Exception\\ParserException": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Exception\\ParserException",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\Parser\\Exception\\ParserException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Exception\\UnknownDefinitionException": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Exception\\UnknownDefinitionException",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\Parser\\Exception\\UnknownDefinitionException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Model\\AbstractDefinition": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Model\\AbstractDefinition",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\Parser\\Model\\AbstractDefinition",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Model\\ClassDefinition": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Model\\ClassDefinition",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\Parser\\Model\\ClassDefinition",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Model\\Dependency": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Model\\Dependency",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\Parser\\Model\\Dependency",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Model\\InterfaceDefinition": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Model\\InterfaceDefinition",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\Parser\\Model\\InterfaceDefinition",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Model\\TraitDefinition": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\Model\\TraitDefinition",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\Parser\\Model\\TraitDefinition",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\NodeVisitor\\DefinitionVisitor": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\NodeVisitor\\DefinitionVisitor",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\Parser\\NodeVisitor\\DefinitionVisitor",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\NodeVisitor\\DependencyVisitor": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\NodeVisitor\\DependencyVisitor",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\Parser\\NodeVisitor\\DependencyVisitor",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\NodeVisitor\\NamespaceVisitor": {
+            "id": "DePhpViz\\Parser\\PhpFileAnalyzer->DePhpViz\\Parser\\NodeVisitor\\NamespaceVisitor",
+            "source": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "target": "DePhpViz\\Parser\\NodeVisitor\\NamespaceVisitor",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Web\\WebServer->DePhpViz\\Web\\Controller\\ApiController": {
+            "id": "DePhpViz\\Web\\WebServer->DePhpViz\\Web\\Controller\\ApiController",
+            "source": "DePhpViz\\Web\\WebServer",
+            "target": "DePhpViz\\Web\\Controller\\ApiController",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Web\\WebServer->DePhpViz\\Web\\Controller\\IndexController": {
+            "id": "DePhpViz\\Web\\WebServer->DePhpViz\\Web\\Controller\\IndexController",
+            "source": "DePhpViz\\Web\\WebServer",
+            "target": "DePhpViz\\Web\\Controller\\IndexController",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Web\\Controller\\ApiController->DePhpViz\\Web\\Exception\\WebServerException": {
+            "id": "DePhpViz\\Web\\Controller\\ApiController->DePhpViz\\Web\\Exception\\WebServerException",
+            "source": "DePhpViz\\Web\\Controller\\ApiController",
+            "target": "DePhpViz\\Web\\Exception\\WebServerException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\FileSystem\\DirectoryScanner": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\FileSystem\\DirectoryScanner",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\FileSystem\\DirectoryScanner",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\FileSystem\\Exception\\DirectoryNotFoundException",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\FileSystem\\FileSystemRepository": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\FileSystem\\FileSystemRepository",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\FileSystem\\FileSystemRepository",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Graph\\DependencyMapper": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Graph\\DependencyMapper",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\Graph\\DependencyMapper",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Graph\\GraphBuilder": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Graph\\GraphBuilder",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\Graph\\GraphBuilder",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Graph\\GraphSerializer": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Graph\\GraphSerializer",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\Graph\\GraphSerializer",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Graph\\GraphValidator": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Graph\\GraphValidator",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\Graph\\GraphValidator",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Parser\\ErrorCollector": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Parser\\ErrorCollector",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\Parser\\ErrorCollector",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Parser\\PhpFileAnalyzer": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Parser\\PhpFileAnalyzer",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\Parser\\PhpFileAnalyzer",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Parser\\PhpFileParser": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Parser\\PhpFileParser",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\Parser\\PhpFileParser",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Util\\ConsoleHandler": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Util\\ConsoleHandler",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\Util\\ConsoleHandler",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Web\\WebServer": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Web\\WebServer",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\Web\\WebServer",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Web\\WebServerConfig": {
+            "id": "DePhpViz\\Command\\AnalyzeCommand->DePhpViz\\Web\\WebServerConfig",
+            "source": "DePhpViz\\Command\\AnalyzeCommand",
+            "target": "DePhpViz\\Web\\WebServerConfig",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\PrototypeCommand->DePhpViz\\Graph\\DependencyMapper": {
+            "id": "DePhpViz\\Command\\PrototypeCommand->DePhpViz\\Graph\\DependencyMapper",
+            "source": "DePhpViz\\Command\\PrototypeCommand",
+            "target": "DePhpViz\\Graph\\DependencyMapper",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\PrototypeCommand->DePhpViz\\Graph\\GraphBuilder": {
+            "id": "DePhpViz\\Command\\PrototypeCommand->DePhpViz\\Graph\\GraphBuilder",
+            "source": "DePhpViz\\Command\\PrototypeCommand",
+            "target": "DePhpViz\\Graph\\GraphBuilder",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\PrototypeCommand->DePhpViz\\Graph\\GraphSerializer": {
+            "id": "DePhpViz\\Command\\PrototypeCommand->DePhpViz\\Graph\\GraphSerializer",
+            "source": "DePhpViz\\Command\\PrototypeCommand",
+            "target": "DePhpViz\\Graph\\GraphSerializer",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\PrototypeCommand->DePhpViz\\Graph\\GraphTester": {
+            "id": "DePhpViz\\Command\\PrototypeCommand->DePhpViz\\Graph\\GraphTester",
+            "source": "DePhpViz\\Command\\PrototypeCommand",
+            "target": "DePhpViz\\Graph\\GraphTester",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\PrototypeCommand->DePhpViz\\Graph\\SampleDataGenerator": {
+            "id": "DePhpViz\\Command\\PrototypeCommand->DePhpViz\\Graph\\SampleDataGenerator",
+            "source": "DePhpViz\\Command\\PrototypeCommand",
+            "target": "DePhpViz\\Graph\\SampleDataGenerator",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\ServerCommand->DePhpViz\\Web\\WebServer": {
+            "id": "DePhpViz\\Command\\ServerCommand->DePhpViz\\Web\\WebServer",
+            "source": "DePhpViz\\Command\\ServerCommand",
+            "target": "DePhpViz\\Web\\WebServer",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Command\\ServerCommand->DePhpViz\\Web\\WebServerConfig": {
+            "id": "DePhpViz\\Command\\ServerCommand->DePhpViz\\Web\\WebServerConfig",
+            "source": "DePhpViz\\Command\\ServerCommand",
+            "target": "DePhpViz\\Web\\WebServerConfig",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\GraphBuilder->DePhpViz\\Graph\\Model\\Graph": {
+            "id": "DePhpViz\\Graph\\GraphBuilder->DePhpViz\\Graph\\Model\\Graph",
+            "source": "DePhpViz\\Graph\\GraphBuilder",
+            "target": "DePhpViz\\Graph\\Model\\Graph",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\GraphBuilder->DePhpViz\\Graph\\Model\\Node": {
+            "id": "DePhpViz\\Graph\\GraphBuilder->DePhpViz\\Graph\\Model\\Node",
+            "source": "DePhpViz\\Graph\\GraphBuilder",
+            "target": "DePhpViz\\Graph\\Model\\Node",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\GraphBuilder->DePhpViz\\Parser\\Model\\AbstractDefinition": {
+            "id": "DePhpViz\\Graph\\GraphBuilder->DePhpViz\\Parser\\Model\\AbstractDefinition",
+            "source": "DePhpViz\\Graph\\GraphBuilder",
+            "target": "DePhpViz\\Parser\\Model\\AbstractDefinition",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\GraphBuilder->DePhpViz\\Parser\\Model\\Dependency": {
+            "id": "DePhpViz\\Graph\\GraphBuilder->DePhpViz\\Parser\\Model\\Dependency",
+            "source": "DePhpViz\\Graph\\GraphBuilder",
+            "target": "DePhpViz\\Parser\\Model\\Dependency",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\GraphValidator->DePhpViz\\Graph\\Model\\Edge": {
+            "id": "DePhpViz\\Graph\\GraphValidator->DePhpViz\\Graph\\Model\\Edge",
+            "source": "DePhpViz\\Graph\\GraphValidator",
+            "target": "DePhpViz\\Graph\\Model\\Edge",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\GraphValidator->DePhpViz\\Graph\\Model\\Graph": {
+            "id": "DePhpViz\\Graph\\GraphValidator->DePhpViz\\Graph\\Model\\Graph",
+            "source": "DePhpViz\\Graph\\GraphValidator",
+            "target": "DePhpViz\\Graph\\Model\\Graph",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\GraphSerializer->DePhpViz\\Graph\\Model\\Graph": {
+            "id": "DePhpViz\\Graph\\GraphSerializer->DePhpViz\\Graph\\Model\\Graph",
+            "source": "DePhpViz\\Graph\\GraphSerializer",
+            "target": "DePhpViz\\Graph\\Model\\Graph",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\GraphTester->DePhpViz\\Graph\\Model\\Graph": {
+            "id": "DePhpViz\\Graph\\GraphTester->DePhpViz\\Graph\\Model\\Graph",
+            "source": "DePhpViz\\Graph\\GraphTester",
+            "target": "DePhpViz\\Graph\\Model\\Graph",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\GraphTester->DePhpViz\\Parser\\Model\\AbstractDefinition": {
+            "id": "DePhpViz\\Graph\\GraphTester->DePhpViz\\Parser\\Model\\AbstractDefinition",
+            "source": "DePhpViz\\Graph\\GraphTester",
+            "target": "DePhpViz\\Parser\\Model\\AbstractDefinition",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\GraphTester->DePhpViz\\Parser\\Model\\Dependency": {
+            "id": "DePhpViz\\Graph\\GraphTester->DePhpViz\\Parser\\Model\\Dependency",
+            "source": "DePhpViz\\Graph\\GraphTester",
+            "target": "DePhpViz\\Parser\\Model\\Dependency",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\DependencyMapper->DePhpViz\\Graph\\Model\\Edge": {
+            "id": "DePhpViz\\Graph\\DependencyMapper->DePhpViz\\Graph\\Model\\Edge",
+            "source": "DePhpViz\\Graph\\DependencyMapper",
+            "target": "DePhpViz\\Graph\\Model\\Edge",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\DependencyMapper->DePhpViz\\Graph\\Model\\Graph": {
+            "id": "DePhpViz\\Graph\\DependencyMapper->DePhpViz\\Graph\\Model\\Graph",
+            "source": "DePhpViz\\Graph\\DependencyMapper",
+            "target": "DePhpViz\\Graph\\Model\\Graph",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\DependencyMapper->DePhpViz\\Parser\\Model\\AbstractDefinition": {
+            "id": "DePhpViz\\Graph\\DependencyMapper->DePhpViz\\Parser\\Model\\AbstractDefinition",
+            "source": "DePhpViz\\Graph\\DependencyMapper",
+            "target": "DePhpViz\\Parser\\Model\\AbstractDefinition",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\DependencyMapper->DePhpViz\\Parser\\Model\\Dependency": {
+            "id": "DePhpViz\\Graph\\DependencyMapper->DePhpViz\\Parser\\Model\\Dependency",
+            "source": "DePhpViz\\Graph\\DependencyMapper",
+            "target": "DePhpViz\\Parser\\Model\\Dependency",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\SampleDataGenerator->DePhpViz\\Parser\\Model\\AbstractDefinition": {
+            "id": "DePhpViz\\Graph\\SampleDataGenerator->DePhpViz\\Parser\\Model\\AbstractDefinition",
+            "source": "DePhpViz\\Graph\\SampleDataGenerator",
+            "target": "DePhpViz\\Parser\\Model\\AbstractDefinition",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\SampleDataGenerator->DePhpViz\\Parser\\Model\\ClassDefinition": {
+            "id": "DePhpViz\\Graph\\SampleDataGenerator->DePhpViz\\Parser\\Model\\ClassDefinition",
+            "source": "DePhpViz\\Graph\\SampleDataGenerator",
+            "target": "DePhpViz\\Parser\\Model\\ClassDefinition",
+            "type": "use",
+            "metadata": []
+        },
+        "DePhpViz\\Graph\\SampleDataGenerator->DePhpViz\\Parser\\Model\\Dependency": {
+            "id": "DePhpViz\\Graph\\SampleDataGenerator->DePhpViz\\Parser\\Model\\Dependency",
+            "source": "DePhpViz\\Graph\\SampleDataGenerator",
+            "target": "DePhpViz\\Parser\\Model\\Dependency",
+            "type": "use",
+            "metadata": []
+        }
+    }
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DePhpViz - PHP Dependency Visualization</title>
+    <link rel="stylesheet" href="/build/app.css">
+</head>
+<body>
+<div id="app">
+    <!-- Vue application will be mounted here -->
+    <div class="loading-indicator">
+        <div class="spinner"></div>
+        <p>Loading visualization...</p>
+    </div>
+</div>
+
+<script>
+    // Configuration for the visualization
+    window.DePhpVizConfig = {
+        apiUrl: '/graph.json'
+    };
+</script>
+<script src="/build/app.js"></script>
+</body>
+</html>
