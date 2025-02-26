@@ -110,8 +110,11 @@ The web interface provides several interactive features:
 
 ## Screenshots
 
+### Graph Visualization
 ![Graph Visualization](https://github.com/user-attachments/assets/54c51b2c-4c7e-4af7-850a-c73cc06b49d1)
-![Dependency Visualization](https://github.com/user-attachments/assets/22969d22-b377-429a-b190-3d4e6cd75e97)
+
+### Dependency Highlighting
+![Dependency Highlighting](https://github.com/user-attachments/assets/22969d22-b377-429a-b190-3d4e6cd75e97)
 
 ## Architecture
 
