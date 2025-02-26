@@ -1,8 +1,10 @@
 # DePhpViz
 
-**DePhpViz** is a sophisticated PHP dependency visualization tool that analyzes PHP codebases to extract and visualize class relationships. It maps the dependencies between classes, interfaces, and traits, providing an interactive graph visualization to help developers understand complex codebases.
+**DePhpViz** is a PHP dependency visualization tool that analyzes PHP codebases to extract and visualize class relationships. It maps the dependencies between classes, interfaces, and traits, providing an interactive graph visualization to help developers understand complex codebases.
 
-This was an attempt to use [Anthropic Claude 3.7](http://claude.ai/) for development of the entire project from a raw idea.
+**EXPERIMENTAL:** This is just an experiment to see how [Anthropic Claude 3.7](http://claude.ai/) can be used to develop the entire project from a raw idea.
+
+[Demo](https://luxemate.github.io/dephpviz/demo/)
 
 ## Key Features
 
