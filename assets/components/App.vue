@@ -4,10 +4,10 @@
       <h1>DePhpViz</h1>
       <search-panel @search="handleSearch" />
     </header>
-    <graph-visualization 
-      :graphData="graphData" 
-      :searchTerm="searchTerm" 
-      class="graph-container" 
+    <graph-visualization
+        :graphData="graphData"
+        :searchTerm="searchTerm"
+        class="graph-container"
     />
   </div>
 </template>
@@ -37,13 +37,25 @@ export default {
     async fetchGraphData() {
       try {
         this.loading = true;
-        const response = await axios.get('/api/graph');
+        console.log('Fetching graph data from:', window.DePhpVizConfig?.apiUrl || '/api/graph');
+
+        const response = await axios.get(window.DePhpVizConfig?.apiUrl || '/api/graph');
+
+        // Debug the response
+        console.log('API Response:', response);
+
+        // Store the raw data object
         this.graphData = response.data;
+
+        // Log data properties
+        console.log('Nodes count:', Object.keys(this.graphData.nodes || {}).length);
+        console.log('Edges count:', Object.keys(this.graphData.edges || {}).length);
+
         this.loading = false;
       } catch (error) {
-        this.error = 'Failed to load graph data';
+        this.error = `Failed to load graph data: ${error.message}`;
         this.loading = false;
-        console.error(error);
+        console.error('Graph data fetch error:', error);
       }
     }
   },
@@ -52,26 +64,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.dephpviz-app {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.graph-container {
-  flex: 1;
-  overflow: hidden;
-}
-</style>

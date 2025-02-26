@@ -1,7 +1,7 @@
 <template>
   <div class="graph-visualization">
     <div v-if="loading" class="loading">Loading graph...</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
+    <div v-if="error" class="error">{{ error }}</div>
     <div v-else ref="cytoscapeContainer" class="cytoscape-container"></div>
   </div>
 </template>
@@ -48,10 +48,10 @@ export default {
   methods: {
     initCytoscape() {
       if (!this.graphData || !this.$refs.cytoscapeContainer) return;
-      
+
       try {
         this.loading = true;
-        
+
         this.cy = cytoscape({
           container: this.$refs.cytoscapeContainer,
           elements: this.transformGraphData(),
@@ -140,8 +140,8 @@ export default {
           ],
           layout: {
             name: 'fcose',
-            idealEdgeLength: 100,
-            nodeOverlap: 20,
+            idealEdgeLength: 500,
+            nodeOverlap: 50,
             refresh: 20,
             fit: true,
             padding: 30,
@@ -150,7 +150,7 @@ export default {
             nodeDimensionsIncludeLabels: true
           }
         });
-        
+
         this.setupEventListeners();
         this.loading = false;
       } catch (error) {
@@ -160,33 +160,51 @@ export default {
       }
     },
     transformGraphData() {
-      if (!this.graphData) return { nodes: [], edges: [] };
-      
-      const nodes = this.graphData.nodes.map(node => ({
-        data: {
-          id: node.id,
-          label: node.label || node.id
-        }
-      }));
-      
-      const edges = this.graphData.edges.map(edge => ({
-        data: {
-          id: `${edge.source}-${edge.target}`,
-          source: edge.source,
-          target: edge.target
-        }
-      }));
-      
-      return [...nodes, ...edges];
+      if (!this.graphData) return [];
+
+      console.log("Graph data structure:", this.graphData);
+
+      const elements = [];
+
+      // Handle nodes as an object rather than array
+      if (this.graphData.nodes && typeof this.graphData.nodes === 'object') {
+        // Convert object values to array
+        Object.values(this.graphData.nodes).forEach(node => {
+          elements.push({
+            data: {
+              id: node.id,
+              label: node.label || node.id
+            }
+          });
+        });
+      }
+
+      // Handle edges as an object rather than array
+      if (this.graphData.edges && typeof this.graphData.edges === 'object') {
+        // Convert object values to array
+        Object.values(this.graphData.edges).forEach(edge => {
+          elements.push({
+            data: {
+              id: `${edge.source}-${edge.target}`,
+              source: edge.source,
+              target: edge.target,
+              type: edge.type || 'default'
+            }
+          });
+        });
+      }
+
+      console.log("Transformed elements:", elements);
+      return elements;
     },
     setupEventListeners() {
       if (!this.cy) return;
-      
+
       this.cy.on('tap', 'node', event => {
         const node = event.target;
         this.highlightConnections(node);
       });
-      
+
       this.cy.on('tap', background => {
         if (background.target === this.cy) {
           this.resetHighlighting();
@@ -196,27 +214,27 @@ export default {
     highlightConnections(node) {
       // Reset previous highlighting
       this.resetHighlighting();
-      
+
       // Highlight selected node
       node.addClass('highlighted');
-      
+
       // Find dependencies (outgoing edges)
       const dependencies = node.outgoers('node');
       dependencies.addClass('dependency');
       node.outgoers('edge').addClass('dependency-edge');
-      
+
       // Find dependents (incoming edges)
       const dependents = node.incomers('node');
       dependents.addClass('dependent');
       node.incomers('edge').addClass('dependent-edge');
-      
+
       // Fade unrelated nodes
       this.cy.nodes()
         .difference(dependencies)
         .difference(dependents)
         .difference(node)
         .addClass('faded');
-      
+
       this.cy.edges()
         .difference(node.outgoers('edge'))
         .difference(node.incomers('edge'))
@@ -230,20 +248,20 @@ export default {
         this.resetHighlighting();
         return;
       }
-      
+
       const searchRegex = new RegExp(term, 'i');
-      const matchingNodes = this.cy.nodes().filter(node => 
+      const matchingNodes = this.cy.nodes().filter(node =>
         searchRegex.test(node.data('label'))
       );
-      
+
       if (matchingNodes.length === 0) {
         this.resetHighlighting();
         return;
       }
-      
+
       this.cy.elements().addClass('faded');
       matchingNodes.removeClass('faded').addClass('highlighted');
-      
+
       // If only one node matched, zoom to it
       if (matchingNodes.length === 1) {
         this.cy.animate({
@@ -271,7 +289,7 @@ export default {
 .graph-visualization {
   width: 100%;
   height: 100%;
-  position: relative;
+  position: absolute;
 }
 
 .cytoscape-container {
