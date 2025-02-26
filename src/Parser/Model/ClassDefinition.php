@@ -7,7 +7,7 @@ namespace DePhpViz\Parser\Model;
 /**
  * Represents a class definition found in a PHP file.
  */
-final readonly class ClassDefinition
+final readonly class ClassDefinition extends AbstractDefinition
 {
     /**
      * @param string $name The class name (without namespace)
@@ -19,13 +19,20 @@ final readonly class ClassDefinition
      * @param bool $isFinal Whether the class is final
      */
     public function __construct(
-        public string $name,
-        public string $namespace,
-        public string $fullyQualifiedName,
-        public string $filePath,
-        public array $docComment = [],
+        string $name,
+        string $namespace,
+        string $fullyQualifiedName,
+        string $filePath,
+        array $docComment = [],
         public bool $isAbstract = false,
         public bool $isFinal = false
     ) {
+        parent::__construct(
+            $name,
+            $namespace,
+            $fullyQualifiedName,
+            $filePath,
+            $docComment
+        );
     }
 }

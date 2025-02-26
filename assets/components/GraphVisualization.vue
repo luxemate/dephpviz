@@ -62,11 +62,37 @@ export default {
                 'background-color': '#6c757d',
                 'label': 'data(label)',
                 'color': '#fff',
-                'text-outline-color': '#6c757d',
                 'text-outline-width': 2,
                 'font-size': 12
               }
             },
+            // Class nodes
+            {
+              selector: 'node[type="class"]',
+              style: {
+                'background-color': '#007bff',
+                'text-outline-color': '#007bff',
+              }
+            },
+            // Trait nodes
+            {
+              selector: 'node[type="trait"]',
+              style: {
+                'background-color': '#28a745',
+                'text-outline-color': '#28a745',
+                'shape': 'round-rectangle'
+              }
+            },
+            // Interface nodes
+            {
+              selector: 'node[type="interface"]',
+              style: {
+                'background-color': '#fd7e14',
+                'text-outline-color': '#fd7e14',
+                'shape': 'diamond'
+              }
+            },
+            // Different edge styles for different relationship types
             {
               selector: 'edge',
               style: {
@@ -77,6 +103,34 @@ export default {
                 'curve-style': 'bezier'
               }
             },
+            {
+              selector: 'edge[type="extends"]',
+              style: {
+                'line-color': '#007bff',
+                'target-arrow-color': '#007bff',
+                'width': 3,
+                'line-style': 'solid'
+              }
+            },
+            {
+              selector: 'edge[type="implements"]',
+              style: {
+                'line-color': '#fd7e14',
+                'target-arrow-color': '#fd7e14',
+                'width': 2,
+                'line-style': 'dashed'
+              }
+            },
+            {
+              selector: 'edge[type="usesTrait"]',
+              style: {
+                'line-color': '#28a745',
+                'target-arrow-color': '#28a745',
+                'width': 2,
+                'line-style': 'dotted'
+              }
+            },
+            // Highlighting
             {
               selector: '.highlighted',
               style: {
@@ -162,39 +216,35 @@ export default {
     transformGraphData() {
       if (!this.graphData) return [];
 
-      console.log("Graph data structure:", this.graphData);
-
       const elements = [];
 
       // Handle nodes as an object rather than array
       if (this.graphData.nodes && typeof this.graphData.nodes === 'object') {
-        // Convert object values to array
         Object.values(this.graphData.nodes).forEach(node => {
           elements.push({
             data: {
               id: node.id,
-              label: node.label || node.id
+              label: node.label || node.id,
+              type: node.type || 'class' // Include entity type
             }
           });
         });
       }
 
-      // Handle edges as an object rather than array
+      // Handle edges with relationship types
       if (this.graphData.edges && typeof this.graphData.edges === 'object') {
-        // Convert object values to array
         Object.values(this.graphData.edges).forEach(edge => {
           elements.push({
             data: {
               id: `${edge.source}-${edge.target}`,
               source: edge.source,
               target: edge.target,
-              type: edge.type || 'default'
+              type: edge.type || 'use' // 'extends', 'implements', 'usesTrait', etc.
             }
           });
         });
       }
 
-      console.log("Transformed elements:", elements);
       return elements;
     },
     setupEventListeners() {

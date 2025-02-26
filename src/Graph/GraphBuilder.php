@@ -6,13 +6,13 @@ namespace DePhpViz\Graph;
 
 use DePhpViz\Graph\Model\Graph;
 use DePhpViz\Graph\Model\Node;
-use DePhpViz\Parser\Model\ClassDefinition;
+use DePhpViz\Parser\Model\AbstractDefinition;
 use DePhpViz\Parser\Model\Dependency;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 /**
- * Builds a dependency graph from parsed class definitions and dependencies.
+ * Builds a dependency graph from parsed definitions and dependencies.
  */
 class GraphBuilder
 {
@@ -29,7 +29,8 @@ class GraphBuilder
     /**
      * Build a dependency graph from parsed data.
      *
-     * @param array<array{class: ClassDefinition, dependencies: array<Dependency>}> $parsedData
+     * @param array<array{definition: AbstractDefinition, dependencies: array<Dependency>}> $parsedData
+     *
      * @return array{
      *     graph: Graph,
      *     stats: array{
@@ -50,19 +51,32 @@ class GraphBuilder
             'nodeCount' => 0,
             'edgeCount' => 0,
             'buildTime' => 0,
+            'nodeTypes' => [
+                'class' => 0,
+                'interface' => 0,
+                'trait' => 0
+            ],
             'dependencies' => []
         ];
 
-        // First pass: Create nodes for all classes
-        $this->logger->debug('Creating nodes for all classes...');
+        // First pass: Create nodes for all definitions
+        $this->logger->debug('Creating nodes for all definitions...');
         foreach ($parsedData as $item) {
-            $classDefinition = $item['class'];
-            $node = Node::fromClassDefinition($classDefinition);
+            $definition = $item['definition'];
+            $node = Node::fromDefinition($definition);
             $graph->addNode($node);
             $stats['nodeCount']++;
+
+            // Track node types
+            $stats['nodeTypes'][$definition->type]++;
         }
 
-        $this->logger->info(sprintf('Created %d nodes', $stats['nodeCount']));
+        $this->logger->info(sprintf('Created %d nodes (%d classes, %d interfaces, %d traits)',
+            $stats['nodeCount'],
+            $stats['nodeTypes']['class'],
+            $stats['nodeTypes']['interface'],
+            $stats['nodeTypes']['trait']
+        ));
 
         // Second pass: Create edges for all dependencies using the mapper
         $this->logger->debug('Mapping dependencies to edges...');

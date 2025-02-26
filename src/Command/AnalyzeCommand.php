@@ -126,7 +126,7 @@ class AnalyzeCommand extends Command
             $progressBar->setMessage('Starting analysis...');
             $progressBar->start();
 
-            $validClasses = [];
+            $validDefinitions = []; // Renamed from validClasses
 
             foreach ($phpFiles as $phpFile) {
                 $progressBar->setMessage(sprintf('Analyzing %s', $phpFile->relativePath));
@@ -134,18 +134,15 @@ class AnalyzeCommand extends Command
                 $result = $phpFileAnalyzer->analyze($phpFile, $requireNamespace);
 
                 if ($result !== null) {
-                    $validClasses[] = $result;
+                    $validDefinitions[] = $result; // Add definition + dependencies
                 }
 
                 $progressBar->advance();
             }
 
-            $progressBar->finish();
-            $output->writeln('');
-
             // Report analysis results
-            $validClassCount = count($validClasses);
-            $io->success(sprintf('Successfully analyzed %d PHP files with a single class definition', $validClassCount));
+            $validDefinitionCount = count($validDefinitions);
+            $io->success(sprintf('Successfully analyzed %d PHP files with valid definitions', $validDefinitionCount));
 
             // Display error statistics
             if ($errorCollector->hasAnyErrors()) {
@@ -175,7 +172,7 @@ class AnalyzeCommand extends Command
 
             // Build the complete graph with refined dependency mapping
             $io->section('Building dependency graph');
-            $result = $graphBuilder->buildGraph($validClasses);
+            $result = $graphBuilder->buildGraph($validDefinitions);
             $graph = $result['graph'];
             $stats = $result['stats'];
 

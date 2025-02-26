@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DePhpViz\Graph;
 
+use DePhpViz\Parser\Model\AbstractDefinition;
 use DePhpViz\Parser\Model\ClassDefinition;
 use DePhpViz\Parser\Model\Dependency;
 
@@ -17,7 +18,7 @@ class SampleDataGenerator
      *
      * @param int $depth Depth of the hierarchy
      * @param int $width Number of children per class
-     * @return array<array{class: ClassDefinition, dependencies: array<Dependency>}>
+     * @return array<array{definition: AbstractDefinition, dependencies: array<Dependency>}>
      */
     public function generateClassHierarchy(int $depth = 3, int $width = 3): array
     {
@@ -59,7 +60,7 @@ class SampleDataGenerator
     /**
      * Generate a specific level in the class hierarchy.
      *
-     * @param array<array{class: ClassDefinition, dependencies: array<Dependency>}> $result
+     * @param array<array{definition: AbstractDefinition, dependencies: array<Dependency>}> $result
      * @param string $parentFqcn
      * @param int $maxDepth
      * @param int $width
@@ -126,7 +127,7 @@ class SampleDataGenerator
      *
      * @param int $nodeCount Number of nodes to generate
      * @param float $connectivityFactor 0-1 value indicating how connected the network should be
-     * @return array<array{class: ClassDefinition, dependencies: array<Dependency>}>
+     * @return array<array{definition: AbstractDefinition, dependencies: array<Dependency>}>
      */
     public function generateComplexNetwork(int $nodeCount = 50, float $connectivityFactor = 0.3): array
     {
@@ -151,7 +152,7 @@ class SampleDataGenerator
 
             $classes[$fqcn] = $class;
             $result[$fqcn] = [
-                'class' => $class,
+                'definition' => $class,
                 'dependencies' => []
             ];
         }

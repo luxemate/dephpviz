@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace DePhpViz\Graph;
 
 use DePhpViz\Graph\Model\Graph;
-use DePhpViz\Parser\Model\ClassDefinition;
+use DePhpViz\Parser\Model\AbstractDefinition;
 use DePhpViz\Parser\Model\Dependency;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -27,18 +27,19 @@ class GraphTester
     /**
      * Generate a test graph using a limited subset of the parsed data.
      *
-     * @param array<array{class: ClassDefinition, dependencies: array<Dependency>}> $parsedData
+     * @param array<array{definition: AbstractDefinition, dependencies: array<Dependency>}> $parsedData
      * @param int $maxNodes Maximum number of nodes to include in the test graph
      * @param string $outputFile Path to save the test graph JSON
      * @param SymfonyStyle|null $io Console IO for output (optional)
-     * @return \DePhpViz\Graph\Model\Graph The generated test graph
+     *
+     * @return Graph The generated test graph
      */
     public function generateTestGraph(
         array $parsedData,
         int $maxNodes,
         string $outputFile,
         ?SymfonyStyle $io = null
-    ): \DePhpViz\Graph\Model\Graph {
+    ): Graph {
         if ($io) {
             $io->section('Generating test graph with subset of data');
             $io->text(sprintf('Using up to %d nodes from %d available classes', $maxNodes, count($parsedData)));
@@ -129,9 +130,9 @@ class GraphTester
     /**
      * Select a subset of data that has the most connections.
      *
-     * @param array<array{class: ClassDefinition, dependencies: array<Dependency>}> $parsedData
+     * @param array<array{definition: AbstractDefinition, dependencies: array<Dependency>}> $parsedData
      * @param int $maxNodes Maximum number of nodes to include
-     * @return array<array{class: ClassDefinition, dependencies: array<Dependency>}>
+     * @return array<array{definition: AbstractDefinition, dependencies: array<Dependency>}>
      */
     private function selectMostConnectedSubset(array $parsedData, int $maxNodes): array
     {

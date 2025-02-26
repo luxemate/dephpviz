@@ -6,7 +6,7 @@ namespace DePhpViz\Graph;
 
 use DePhpViz\Graph\Model\Edge;
 use DePhpViz\Graph\Model\Graph;
-use DePhpViz\Parser\Model\ClassDefinition;
+use DePhpViz\Parser\Model\AbstractDefinition;
 use DePhpViz\Parser\Model\Dependency;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -28,7 +28,7 @@ class DependencyMapper
      * Map dependencies to graph edges.
      *
      * @param Graph $graph The graph to add edges to
-     * @param array<array{class: ClassDefinition, dependencies: array<Dependency>}> $parsedData
+     * @param array<array{definition: AbstractDefinition, dependencies: array<Dependency>}> $parsedData
      * @return array<string, array{count: int, missing: int, invalid: int, circular: int}>
      *     Statistics on the mapping process
      */
@@ -40,22 +40,29 @@ class DependencyMapper
             'use' => ['count' => 0, 'missing' => 0, 'invalid' => 0, 'circular' => 0],
             'extends' => ['count' => 0, 'missing' => 0, 'invalid' => 0, 'circular' => 0],
             'implements' => ['count' => 0, 'missing' => 0, 'invalid' => 0, 'circular' => 0],
+            'usesTrait' => ['count' => 0, 'missing' => 0, 'invalid' => 0, 'circular' => 0],
             'total' => ['count' => 0, 'missing' => 0, 'invalid' => 0, 'circular' => 0]
         ];
 
-        // Process each class and its dependencies
+        // Process each definition and its dependencies
         foreach ($parsedData as $item) {
-            $class = $item['class'];
+            $definition = $item['definition'];
             $dependencies = $item['dependencies'];
 
             $this->logger->debug(sprintf(
-                'Processing dependencies for %s (%d dependencies)',
-                $class->fullyQualifiedName,
+                'Processing dependencies for %s (%s, %d dependencies)',
+                $definition->fullyQualifiedName,
+                $definition->type,
                 count($dependencies)
             ));
 
             foreach ($dependencies as $dependency) {
                 $edgeType = $dependency->type;
+
+                // If this is a new edge type, initialize stats
+                if (!isset($stats[$edgeType])) {
+                    $stats[$edgeType] = ['count' => 0, 'missing' => 0, 'invalid' => 0, 'circular' => 0];
+                }
 
                 // Skip if the source node doesn't exist (should never happen)
                 if (!$graph->hasNode($dependency->sourceClass)) {

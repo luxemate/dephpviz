@@ -12,32 +12,36 @@ final readonly class Node
     /**
      * @param string $id Unique identifier for the node
      * @param string $label Display label for the node
+     * @param string $type Type of node ('class', 'trait', or 'interface')
      * @param array<string, mixed> $metadata Additional node metadata
      */
     public function __construct(
         public string $id,
         public string $label,
+        public string $type = 'class',
         public array $metadata = []
     ) {
     }
 
     /**
-     * Create a node from a class definition.
+     * Create a node from a definition.
      *
-     * @param \DePhpViz\Parser\Model\ClassDefinition $classDefinition
+     * @param \DePhpViz\Parser\Model\AbstractDefinition $definition
      * @return self
      */
-    public static function fromClassDefinition(\DePhpViz\Parser\Model\ClassDefinition $classDefinition): self
+    public static function fromDefinition(\DePhpViz\Parser\Model\AbstractDefinition $definition): self
     {
         return new self(
-            $classDefinition->fullyQualifiedName,
-            $classDefinition->name,
+            $definition->fullyQualifiedName,
+            $definition->name,
+            $definition->type,
             [
-                'namespace' => $classDefinition->namespace,
-                'filePath' => $classDefinition->filePath,
-                'isAbstract' => $classDefinition->isAbstract,
-                'isFinal' => $classDefinition->isFinal,
-                'docComment' => $classDefinition->docComment,
+                'namespace' => $definition->namespace,
+                'filePath' => $definition->filePath,
+                'docComment' => $definition->docComment,
+                // Add class-specific properties if available
+                'isAbstract' => $definition instanceof \DePhpViz\Parser\Model\ClassDefinition ? $definition->isAbstract : false,
+                'isFinal' => $definition instanceof \DePhpViz\Parser\Model\ClassDefinition ? $definition->isFinal : false,
             ]
         );
     }
@@ -52,6 +56,7 @@ final readonly class Node
         return [
             'id' => $this->id,
             'label' => $this->label,
+            'type' => $this->type,
             'metadata' => $this->metadata,
         ];
     }

@@ -13,7 +13,7 @@ final readonly class Edge
      * @param string $id Unique identifier for the edge
      * @param string $source Source node ID
      * @param string $target Target node ID
-     * @param string $type Type of relationship (e.g., 'use', 'extends', 'implements')
+     * @param string $type Type of relationship ('use', 'extends', 'implements', 'usesTrait')
      * @param array<string, mixed> $metadata Additional edge metadata
      */
     public function __construct(
