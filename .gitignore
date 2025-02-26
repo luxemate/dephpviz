@@ -5,6 +5,8 @@
 !/var/cache/.gitkeep
 /var/logs/*
 !/var/logs/.gitkeep
+/var/graph.json
+/var/prototype-graph.json
 /public/build/
 .phpunit.result.cache
 .env.local
