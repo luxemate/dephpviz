@@ -1,0 +1,11 @@
+{
+  "assets/index.html": {
+    "file": "assets/app-3IV-Ykt3.js",
+    "name": "app",
+    "src": "assets/index.html",
+    "isEntry": true,
+    "css": [
+      "assets/app-D8lxHB5e.css"
+    ]
+  }
+}
