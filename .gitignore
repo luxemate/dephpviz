@@ -11,3 +11,4 @@
 .phpunit.result.cache
 .env.local
 .env.*.local
+repomix-output.txt

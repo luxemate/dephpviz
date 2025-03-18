@@ -34,7 +34,7 @@ class IndexController
             'client' => $request->getClientIp()
         ]);
 
-        $indexFile = $this->publicDir . '/index.html';
+        $indexFile = $this->publicDir . '/build/assets/index.html';
 
         if (!file_exists($indexFile)) {
             $this->logger->error('Index file not found', [

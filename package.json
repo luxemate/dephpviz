@@ -4,38 +4,36 @@
     "description": "PHP dependency visualization tool",
     "private": true,
     "scripts": {
-        "dev-server": "encore dev-server",
-        "dev": "encore dev",
-        "watch": "encore dev --watch",
-        "build": "encore production --progress"
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "watch": "vite build --watch"
     },
     "dependencies": {
-        "cytoscape": "^3.26.0",
-        "cytoscape-klay": "^3.1.4",
-        "fuse.js": "^6.6.2",
+        "@react-sigma/core": "^5.0.1",
+        "@sigma/node-image": "^3.0.0",
+        "graphology": "^0.25.4",
+        "graphology-layout-forceatlas2": "^0.10.1",
+        "graphology-types": "^0.24.8",
+        "graphology-layout": "^0.6.1",
         "lodash": "^4.17.21",
-        "vue": "^3.3.4",
-        "vue-loader": "^17.2.2",
-        "vue-template-compiler": "^2.7.14",
-        "axios": "^1.4.0"
+        "react": "^18.2.0",
+        "react-animate-height": "^3.2.3",
+        "react-dom": "^18.2.0",
+        "react-icons": "^5.0.1",
+        "axios": "^1.4.0",
+        "sigma": "^3.0.0"
     },
     "devDependencies": {
-        "@babel/core": "^7.21.8",
-        "@babel/preset-env": "^7.21.5",
-        "@symfony/webpack-encore": "^4.4.0",
-        "@vue/compiler-sfc": "^3.3.4",
-        "core-js": "^3.30.2",
-        "file-loader": "^6.2.0",
-        "regenerator-runtime": "^0.13.11",
-        "sass": "^1.62.1",
-        "sass-loader": "^13.3.0",
-        "webpack": "^5.84.1",
-        "webpack-cli": "^5.1.1",
-        "webpack-notifier": "^1.15.0"
-    },
-    "browserslist": [
-        "> 1%",
-        "last 2 versions",
-        "not dead"
-    ]
+        "@types/lodash": "^4.14.202",
+        "@types/node": "^20.10.5",
+        "@types/react": "^18.2.45",
+        "@types/react-dom": "^18.2.18",
+        "@vitejs/plugin-react": "^4.2.1",
+        "sass": "^1.69.5",
+        "typescript": "^5.3.3",
+        "vite": "^5.0.10",
+        "vite-plugin-checker": "^0.6.2",
+        "vite-tsconfig-paths": "^4.2.2"
+    }
 }
